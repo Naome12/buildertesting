@@ -3,9 +3,6 @@
 import { AuthProvider, useAuth } from "@/contexts/auth-context"
 import { LoginForm } from "@/components/auth/login-form"
 import { Dashboard } from "@/components/dashboard/dashboard"
-import { AdminPermissions } from "@/components/permissions/admin-permissions"
-import { FocalPermissions } from "@/components/permissions/focal-permissions"
-
 function AppContent() {
   const { user, isLoading } = useAuth()
 
@@ -21,8 +18,6 @@ function AppContent() {
     return <LoginForm />
   }
 
-  if (user.role === "admin") return <AdminPermissions />
-  if (user.role === "subClusterFocalPerson") return <FocalPermissions />
   return <Dashboard />
 }
 
