@@ -24,7 +24,9 @@ export default function RootLayout({
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <SafeFetchGuard />
         <AuthProvider>
-          <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          <Shell>
+            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          </Shell>
         </AuthProvider>
         <Analytics />
       </body>
