@@ -344,10 +344,10 @@ export function Dashboard() {
               </Button>
 
               <div className="flex items-center gap-3">
-                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                  <User className="h-3 w-3" />
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                  <User className="h-4 w-4" />
                 </div>
-                <div className="hidden sm:flex flex-col leading-none">
+                <div className="flex flex-col leading-none">
                   <span className="text-sm font-medium">{user?.username || "User"}</span>
                   <span className="text-xs text-muted-foreground">{getRoleLabel(user?.role || "")}</span>
                 </div>
