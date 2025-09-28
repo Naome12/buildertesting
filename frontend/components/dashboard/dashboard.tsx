@@ -323,62 +323,26 @@ export function Dashboard() {
               <Button variant="ghost" size="sm" className="lg:hidden" onClick={() => setSidebarOpen(true)}>
                 <Menu className="h-4 w-4" />
               </Button>
-              
-              {/* Search Bar */}
-              <div className="relative hidden md:block">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="pl-10 pr-4 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
+
+              {/* Left brand / title */}
+              <div className="flex items-center gap-3">
+                <img src="https://cdn.builder.io/api/v1/image/assets%2F41815d3225a0419fb0173fc1492a2d70%2F3b23b5d19304433fbcfaa72535869839?format=webp&width=800" alt="Stakeholder Mapping Tool" className="h-8 w-auto object-contain" />
+                <h1 className="hidden sm:block text-lg font-semibold text-foreground">Stakeholder Mapping Tool</h1>
               </div>
             </div>
 
-            {/* Right side - User menu and notifications */}
+            {/* Right side - notifications and simplified user label */}
             <div className="flex items-center gap-4">
-              {/* Notifications */}
               <Button variant="ghost" size="sm" className="relative">
                 <Bell className="h-4 w-4" />
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
               </Button>
 
-              {/* User Profile Dropdown */}
-              <div className="relative">
-                <Button
-                  variant="ghost"
-                  className="flex items-center gap-2 hover:bg-muted"
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                >
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                    <User className="h-4 w-4" />
-                  </div>
-                  <div className="hidden sm:block text-left">
-                    <p className="text-sm font-medium">{user?.username || "User"}</p>
-                    <p className="text-xs text-muted-foreground">{getRoleLabel(user?.role || "")}</p>
-                  </div>
-                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                </Button>
-
-                {/* User Dropdown Menu */}
-                {userMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-border rounded-lg shadow-lg z-40">
-                    <div className="p-4 border-b border-border">
-                      <p className="text-sm font-medium">{user?.username || "User"}</p>
-                      <p className="text-xs text-muted-foreground">{user?.email || "user@example.com"}</p>
-                    </div>
-                    <div className="p-2">
-                      <Button
-                        variant="ghost"
-                        className="w-full justify-start text-sm text-red-600 hover:bg-red-50 hover:text-red-700"
-                        onClick={logout}
-                      >
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Sign Out
-                      </Button>
-                    </div>
-                  </div>
-                )}
+              <div className="flex items-center gap-3">
+                <div className="text-sm text-foreground">
+                  <span className="font-medium">{user?.username || "World Vision User"}</span>
+                </div>
+                <span className="text-xs text-muted-foreground">{getRoleLabel(user?.role || "Stakeholder User")}</span>
               </div>
             </div>
           </div>
