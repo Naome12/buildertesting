@@ -1,6 +1,6 @@
 "use client"
 
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from "recharts"
 
 const barData = [
@@ -22,6 +22,23 @@ interface StatsChartProps {
 }
 
 export default function StatsChart({ type, title, data }: StatsChartProps) {
+  const [colors, setColors] = useState({ primary: "#3b82f6", secondary: "#10b981" })
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+    try {
+      const root = getComputedStyle(document.documentElement)
+      const primaryVar = root.getPropertyValue("--primary").trim()
+      const secondaryVar = root.getPropertyValue("--secondary").trim()
+      const primary = primaryVar ? `hsl(${primaryVar})` : colors.primary
+      const secondary = secondaryVar ? `hsl(${secondaryVar})` : colors.secondary
+      setColors({ primary, secondary })
+    } catch (e) {
+      // ignore
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
   if (type === "bar") {
     return (
       <div className="bg-card border border-border rounded-xl p-6">
@@ -39,8 +56,8 @@ export default function StatsChart({ type, title, data }: StatsChartProps) {
                   borderRadius: "8px",
                 }}
               />
-              <Bar dataKey="planned" fill="hsl(var(--primary))" name="Planned" radius={[2, 2, 0, 0]} />
-              <Bar dataKey="actual" fill="hsl(var(--secondary))" name="Actual" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="planned" fill={colors.primary} name="Planned" radius={[2, 2, 0, 0]} />
+              <Bar dataKey="actual" fill={colors.secondary} name="Actual" radius={[2, 2, 0, 0]} />
             </BarChart>
           </ResponsiveContainer>
         </div>
@@ -56,7 +73,7 @@ export default function StatsChart({ type, title, data }: StatsChartProps) {
           <PieChart>
             <Pie data={data || pieData} cx="50%" cy="50%" outerRadius={80} dataKey="value" stroke="none">
               {(data || pieData).map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color} />
+                <Cell key={`cell-${index}`} fill={entry.color?.startsWith('hsl(') ? entry.color : `hsl(${entry.color})`} />
               ))}
             </Pie>
             <Tooltip
