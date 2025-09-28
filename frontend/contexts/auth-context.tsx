@@ -48,7 +48,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     localStorage.removeItem("smt-user")
   }
 
-  return <AuthContext.Provider value={{ user, login, logout, isLoading }}>{children}</AuthContext.Provider>
+  const hasPermission = (permission: string) => {
+    if (!user) return false
+    const perms: Record<string, string[]> = {
+      admin: ["manage_system", "manage_users", "export_data"],
+      subClusterFocalPerson: ["export_data", "view_reports"],
+      stakeholder: ["create_action_plans", "view_own_reports"],
+    }
+    return perms[user.role]?.includes(permission) || false
+  }
+
+  return <AuthContext.Provider value={{ user, login, logout, isLoading, hasPermission }}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {
