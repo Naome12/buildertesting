@@ -21,8 +21,8 @@ function AppContent() {
     return <LoginForm />
   }
 
-  if (user.role === "admin") return <AdminPortal />
-  if (user.role === "subClusterFocalPerson") return <FocalPortal />
+  if (user.role === "admin") return <AdminPermissions />
+  if (user.role === "subClusterFocalPerson") return <FocalPermissions />
   return <Dashboard />
 }
 
