@@ -6,6 +6,8 @@ import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
 import "./globals.css"
 import SafeFetchGuard from "@/components/safe-fetch-guard"
+import { AuthProvider } from "@/contexts/auth-context"
+import Shell from "@/components/shell"
 
 export const metadata: Metadata = {
   title: "MIGEPROF Stakeholder Mapping Tool",
@@ -22,7 +24,11 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans ${GeistSans.variable} ${GeistMono.variable}`}>
         <SafeFetchGuard />
-        <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+        <AuthProvider>
+          <Shell>
+            <Suspense fallback={<div>Loading...</div>}>{children}</Suspense>
+          </Shell>
+        </AuthProvider>
         <Analytics />
       </body>
     </html>

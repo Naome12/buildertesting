@@ -31,12 +31,14 @@ import {
   Bell,
   Search,
 } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { KpiForm } from "../data-management/kpi-form"
 import { DashboardCharts } from "@/components/dashboard/charts"
 import { actionPlans, sampleReports, sampleStakeholders } from "@/mocks/mockData"
 
 export function Dashboard() {
   const { user, logout } = useAuth()
+  const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [currentView, setCurrentView] = useState("dashboard")
   const [showActionPlanForm, setShowActionPlanForm] = useState(false)
@@ -65,7 +67,18 @@ export function Dashboard() {
     { icon: Settings, label: "KPI Management", key: "kpis", active: currentView === "kpis" },
     { icon: Download, label: "Export Center", key: "export", active: currentView === "export" },
     { icon: Calendar, label: "Planning Calendar", key: "calendar", active: currentView === "calendar" },
+    { icon: Settings, label: "Settings", key: "settings", active: currentView === "settings" },
   ]
+
+  // Simple role -> allowed menu keys mapping
+  const rolePermissions: Record<string, string[]> = {
+    admin: ["dashboard", "action-plans", "reports", "stakeholders", "kpis", "export", "calendar", "settings"],
+    subClusterFocalPerson: ["dashboard", "reports", "stakeholders", "export", "calendar", "settings"],
+    stakeholder: ["dashboard", "action-plans", "reports", "kpis", "calendar", "settings"],
+  }
+
+  const allowedKeys = rolePermissions[user?.role || "stakeholder"] || []
+  const visibleMenuItems = menuItems.filter((m) => allowedKeys.includes(m.key))
 
   const handleCreateActionPlan = (planData: any) => {
     console.log("Creating action plan:", planData)
@@ -275,7 +288,7 @@ export function Dashboard() {
 
           {/* Navigation */}
           <nav className="flex-1 p-4 space-y-2">
-            {menuItems.map((item, index) => (
+            {visibleMenuItems.map((item, index) => (
               <Button
                 key={index}
                 variant="ghost"
@@ -285,6 +298,11 @@ export function Dashboard() {
                     : "text-blue-100"
                 }`}
                 onClick={() => {
+                  if (item.key === "settings") {
+                    router.push("/settings")
+                    setSidebarOpen(false)
+                    return
+                  }
                   setCurrentView(item.key)
                   setSidebarOpen(false)
                 }}
@@ -318,67 +336,29 @@ export function Dashboard() {
       <div className="lg:ml-64">
         {/* Fixed Top Navbar */}
         <header className="fixed top-0 right-0 left-0 lg:left-64 bg-white border-b border-border z-30">
-          <div className="flex items-center justify-between p-4">
+          <div className="flex items-center justify-between px-4 py-3">
             <div className="flex items-center gap-4">
               <Button variant="ghost" size="sm" className="lg:hidden" onClick={() => setSidebarOpen(true)}>
                 <Menu className="h-4 w-4" />
               </Button>
-              
-              {/* Search Bar */}
-              <div className="relative hidden md:block">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <input
-                  type="text"
-                  placeholder="Search..."
-                  className="pl-10 pr-4 py-2 border border-border rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                />
-              </div>
+
+              <h1 className="text-sm font-semibold text-foreground">Stakeholder Mapping Tool</h1>
             </div>
 
-            {/* Right side - User menu and notifications */}
             <div className="flex items-center gap-4">
-              {/* Notifications */}
-              <Button variant="ghost" size="sm" className="relative">
+              <Button variant="ghost" size="sm" className="relative" aria-label="Notifications" onClick={() => router.push('/notifications')}>
                 <Bell className="h-4 w-4" />
-                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full"></span>
+                <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
               </Button>
 
-              {/* User Profile Dropdown */}
-              <div className="relative">
-                <Button
-                  variant="ghost"
-                  className="flex items-center gap-2 hover:bg-muted"
-                  onClick={() => setUserMenuOpen(!userMenuOpen)}
-                >
-                  <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
-                    <User className="h-4 w-4" />
-                  </div>
-                  <div className="hidden sm:block text-left">
-                    <p className="text-sm font-medium">{user?.username || "User"}</p>
-                    <p className="text-xs text-muted-foreground">{getRoleLabel(user?.role || "")}</p>
-                  </div>
-                  <ChevronDown className="h-4 w-4 text-muted-foreground" />
-                </Button>
-
-                {/* User Dropdown Menu */}
-                {userMenuOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-48 bg-white border border-border rounded-lg shadow-lg z-40">
-                    <div className="p-4 border-b border-border">
-                      <p className="text-sm font-medium">{user?.username || "User"}</p>
-                      <p className="text-xs text-muted-foreground">{user?.email || "user@example.com"}</p>
-                    </div>
-                    <div className="p-2">
-                      <Button
-                        variant="ghost"
-                        className="w-full justify-start text-sm text-red-600 hover:bg-red-50 hover:text-red-700"
-                        onClick={logout}
-                      >
-                        <LogOut className="mr-2 h-4 w-4" />
-                        Sign Out
-                      </Button>
-                    </div>
-                  </div>
-                )}
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                  <User className="h-4 w-4" />
+                </div>
+                <div className="flex flex-col leading-none">
+                  <span className="text-sm font-medium">{user?.username || "User"}</span>
+                  <span className="text-xs text-muted-foreground">{getRoleLabel(user?.role || "")}</span>
+                </div>
               </div>
             </div>
           </div>
