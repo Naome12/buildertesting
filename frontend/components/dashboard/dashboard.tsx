@@ -31,6 +31,7 @@ import {
   Bell,
   Search,
 } from "lucide-react"
+import { useRouter } from "next/navigation"
 import { KpiForm } from "../data-management/kpi-form"
 import { DashboardCharts } from "@/components/dashboard/charts"
 import { actionPlans, sampleReports, sampleStakeholders } from "@/mocks/mockData"
