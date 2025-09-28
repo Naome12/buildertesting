@@ -346,7 +346,7 @@ export function Dashboard() {
             </div>
 
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" className="relative" aria-label="Notifications">
+              <Button variant="ghost" size="sm" className="relative" aria-label="Notifications" onClick={() => router.push('/notifications')}>
                 <Bell className="h-4 w-4" />
                 <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
               </Button>
