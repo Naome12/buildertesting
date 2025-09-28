@@ -338,8 +338,8 @@ export function Dashboard() {
                   <User className="h-3 w-3" />
                 </div>
                 <div className="hidden sm:flex flex-col leading-none">
-                  <span className="text-sm font-medium">World Vision User</span>
-                  <span className="text-xs text-muted-foreground">Stakeholder User</span>
+                  <span className="text-sm font-medium">{user?.username || "User"}</span>
+                  <span className="text-xs text-muted-foreground">{getRoleLabel(user?.role || "")}</span>
                 </div>
               </div>
             </div>
