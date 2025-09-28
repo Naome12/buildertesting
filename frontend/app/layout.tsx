@@ -7,6 +7,7 @@ import { Suspense } from "react"
 import "./globals.css"
 import SafeFetchGuard from "@/components/safe-fetch-guard"
 import { AuthProvider } from "@/contexts/auth-context"
+import Shell from "@/components/shell"
 
 export const metadata: Metadata = {
   title: "MIGEPROF Stakeholder Mapping Tool",
