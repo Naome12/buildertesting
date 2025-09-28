@@ -318,31 +318,29 @@ export function Dashboard() {
       <div className="lg:ml-64">
         {/* Fixed Top Navbar */}
         <header className="fixed top-0 right-0 left-0 lg:left-64 bg-white border-b border-border z-30">
-          <div className="flex items-center justify-between p-4">
+          <div className="flex items-center justify-between px-4 py-3">
             <div className="flex items-center gap-4">
               <Button variant="ghost" size="sm" className="lg:hidden" onClick={() => setSidebarOpen(true)}>
                 <Menu className="h-4 w-4" />
               </Button>
 
-              {/* Left brand / title */}
-              <div className="flex items-center gap-3">
-                <img src="https://cdn.builder.io/api/v1/image/assets%2F41815d3225a0419fb0173fc1492a2d70%2F3b23b5d19304433fbcfaa72535869839?format=webp&width=800" alt="Stakeholder Mapping Tool" className="h-8 w-auto object-contain" />
-                <h1 className="hidden sm:block text-lg font-semibold text-foreground">Stakeholder Mapping Tool</h1>
-              </div>
+              <h1 className="text-sm font-semibold text-foreground">Stakeholder Mapping Tool</h1>
             </div>
 
-            {/* Right side - notifications and simplified user label */}
             <div className="flex items-center gap-4">
-              <Button variant="ghost" size="sm" className="relative">
+              <Button variant="ghost" size="sm" className="relative" aria-label="Notifications">
                 <Bell className="h-4 w-4" />
                 <span className="absolute -top-1 -right-1 w-2 h-2 bg-red-500 rounded-full" />
               </Button>
 
               <div className="flex items-center gap-3">
-                <div className="text-sm text-foreground">
-                  <span className="font-medium">{user?.username || "World Vision User"}</span>
+                <div className="w-6 h-6 bg-blue-600 rounded-full flex items-center justify-center text-white">
+                  <User className="h-3 w-3" />
                 </div>
-                <span className="text-xs text-muted-foreground">{getRoleLabel(user?.role || "Stakeholder User")}</span>
+                <div className="hidden sm:flex flex-col leading-none">
+                  <span className="text-sm font-medium">World Vision User</span>
+                  <span className="text-xs text-muted-foreground">Stakeholder User</span>
+                </div>
               </div>
             </div>
           </div>
