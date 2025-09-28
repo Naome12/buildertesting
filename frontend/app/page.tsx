@@ -3,8 +3,8 @@
 import { AuthProvider, useAuth } from "@/contexts/auth-context"
 import { LoginForm } from "@/components/auth/login-form"
 import { Dashboard } from "@/components/dashboard/dashboard"
-import { AdminPortal as AdminPermissions } from "@/components/portals/admin-portal"
-import { FocalPortal as FocalPermissions } from "@/components/portals/focal-portal"
+import { AdminPermissions } from "@/components/permissions/admin-permissions"
+import { FocalPermissions } from "@/components/permissions/focal-permissions"
 
 function AppContent() {
   const { user, isLoading } = useAuth()

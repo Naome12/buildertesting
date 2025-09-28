@@ -67,6 +67,16 @@ export function Dashboard() {
     { icon: Calendar, label: "Planning Calendar", key: "calendar", active: currentView === "calendar" },
   ]
 
+  // Simple role -> allowed menu keys mapping
+  const rolePermissions: Record<string, string[]> = {
+    admin: ["dashboard", "action-plans", "reports", "stakeholders", "kpis", "export", "calendar"],
+    subClusterFocalPerson: ["dashboard", "reports", "stakeholders", "export", "calendar"],
+    stakeholder: ["dashboard", "action-plans", "reports", "kpis", "calendar"],
+  }
+
+  const allowedKeys = rolePermissions[user?.role || "stakeholder"] || []
+  const visibleMenuItems = menuItems.filter((m) => allowedKeys.includes(m.key))
+
   const handleCreateActionPlan = (planData: any) => {
     console.log("Creating action plan:", planData)
     setShowActionPlanForm(false)
@@ -275,7 +285,7 @@ export function Dashboard() {
 
           {/* Navigation */}
           <nav className="flex-1 p-4 space-y-2">
-            {menuItems.map((item, index) => (
+            {visibleMenuItems.map((item, index) => (
               <Button
                 key={index}
                 variant="ghost"

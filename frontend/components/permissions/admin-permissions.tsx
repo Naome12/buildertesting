@@ -33,7 +33,7 @@ interface ManagedUser {
   status: "active" | "inactive"
 }
 
-export function AdminPortal() {
+export function AdminPermissions() {
   const { user, logout } = useAuth()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [userMenuOpen, setUserMenuOpen] = useState(false)
@@ -398,101 +398,3 @@ export function AdminPortal() {
             <Input placeholder="e.g., Child Protection" />
           </div>
           <div>
-            <Label>KPI Name</Label>
-            <Input placeholder="e.g., Children supported" />
-          </div>
-          <div>
-            <Label>Unit</Label>
-            <Input placeholder="e.g., children" />
-          </div>
-        </div>
-        <div>
-          <Label>Disaggregation Fields</Label>
-          <Input placeholder="Comma-separated (Gender, Age, Disability)" />
-        </div>
-        <div className="flex justify-end">
-          <Button>Save</Button>
-        </div>
-      </CardContent>
-    </Card>
-  )
-
-  const ImportView = (
-    <Card>
-      <CardHeader>
-        <CardTitle>Bulk Import Users</CardTitle>
-        <CardDescription>Upload a CSV file with columns: username,email,role</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        <input
-          type="file"
-          accept=".csv"
-          onChange={(e) => {
-            const f = e.target.files?.[0]
-            if (f) importCsv(f)
-          }}
-          className="block w-full text-sm"
-        />
-        <div className="p-3 rounded bg-muted/50 text-sm">
-          Example:
-          <pre className="text-xs mt-2">username,email,role\njdoe,jdoe@example.com,stakeholder\nfp1,fp1@migeprof.gov.rw,subClusterFocalPerson</pre>
-        </div>
-      </CardContent>
-    </Card>
-  )
-
-  const AuditView = (
-    <Card>
-      <CardHeader>
-        <CardTitle>Audit Logs</CardTitle>
-        <CardDescription>Security-relevant activities</CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-2">
-        {auditLogs.map((l, i) => (
-          <div key={i} className="flex items-center justify-between p-3 bg-muted/50 rounded-lg">
-            <div>
-              <p className="font-medium text-sm">{l.action}</p>
-              <p className="text-xs text-muted-foreground">{l.details}</p>
-            </div>
-            <div className="text-xs text-muted-foreground">{new Date(l.ts).toLocaleString()}</div>
-          </div>
-        ))}
-      </CardContent>
-    </Card>
-  )
-
-  const Content = () => {
-    switch (currentView) {
-      case "users":
-        return UsersView
-      case "roles":
-        return RolesView
-      case "adm":
-        return AdmView
-      case "kpis":
-        return KpisView
-      case "import":
-        return ImportView
-      case "audit":
-        return AuditView
-      case "export":
-        return <ExportCenter />
-      default:
-        return DashboardView
-    }
-  }
-
-  return (
-    <div className="min-h-screen bg-background">
-      {sidebarOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={() => setSidebarOpen(false)} />}
-      {Sidebar}
-      <div className="lg:ml-64">
-        {TopBar}
-        <main className="p-6 mt-16">
-          <Content />
-        </main>
-      </div>
-      {userMenuOpen && <div className="fixed inset-0 z-30" onClick={() => setUserMenuOpen(false)} />}
-    </div>
-  )
-}
