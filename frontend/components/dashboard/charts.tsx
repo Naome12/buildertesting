@@ -1,7 +1,6 @@
 "use client"
 
 import React from "react"
-import React from "react"
 import StatsChart from "./stats-chart"
 
 export function DashboardCharts() {
