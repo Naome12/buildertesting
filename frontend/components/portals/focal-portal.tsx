@@ -100,7 +100,7 @@ export function FocalPortal() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-xl font-bold text-white">MIGEPROF SMT</h1>
-              <p className="text-sm text-blue-200">Sub-Cluster Portal</p>
+              <p className="text-sm text-blue-200">Sub-Cluster Permissions</p>
             </div>
             <Button variant="ghost" size="sm" className="lg:hidden text-white" onClick={() => setSidebarOpen(false)}>
               <X className="h-4 w-4" />
