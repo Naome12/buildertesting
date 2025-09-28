@@ -38,6 +38,7 @@ import { actionPlans, sampleReports, sampleStakeholders } from "@/mocks/mockData
 
 export function Dashboard() {
   const { user, logout } = useAuth()
+  const router = useRouter()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const [currentView, setCurrentView] = useState("dashboard")
   const [showActionPlanForm, setShowActionPlanForm] = useState(false)
