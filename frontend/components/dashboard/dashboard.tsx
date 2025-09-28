@@ -66,13 +66,14 @@ export function Dashboard() {
     { icon: Settings, label: "KPI Management", key: "kpis", active: currentView === "kpis" },
     { icon: Download, label: "Export Center", key: "export", active: currentView === "export" },
     { icon: Calendar, label: "Planning Calendar", key: "calendar", active: currentView === "calendar" },
+    { icon: Settings, label: "Settings", key: "settings", active: currentView === "settings" },
   ]
 
   // Simple role -> allowed menu keys mapping
   const rolePermissions: Record<string, string[]> = {
-    admin: ["dashboard", "action-plans", "reports", "stakeholders", "kpis", "export", "calendar"],
-    subClusterFocalPerson: ["dashboard", "reports", "stakeholders", "export", "calendar"],
-    stakeholder: ["dashboard", "action-plans", "reports", "kpis", "calendar"],
+    admin: ["dashboard", "action-plans", "reports", "stakeholders", "kpis", "export", "calendar", "settings"],
+    subClusterFocalPerson: ["dashboard", "reports", "stakeholders", "export", "calendar", "settings"],
+    stakeholder: ["dashboard", "action-plans", "reports", "kpis", "calendar", "settings"],
   }
 
   const allowedKeys = rolePermissions[user?.role || "stakeholder"] || []
