@@ -297,6 +297,11 @@ export function Dashboard() {
                     : "text-blue-100"
                 }`}
                 onClick={() => {
+                  if (item.key === "settings") {
+                    router.push("/settings")
+                    setSidebarOpen(false)
+                    return
+                  }
                   setCurrentView(item.key)
                   setSidebarOpen(false)
                 }}
