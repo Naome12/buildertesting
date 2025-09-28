@@ -23,6 +23,7 @@ interface StatsChartProps {
 
 export default function StatsChart({ type, title, data }: StatsChartProps) {
   const [colors, setColors] = useState({ primary: "#3b82f6", secondary: "#10b981" })
+  const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     if (typeof window === "undefined") return
@@ -36,8 +37,17 @@ export default function StatsChart({ type, title, data }: StatsChartProps) {
     } catch (e) {
       // ignore
     }
+    setLoaded(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  if (!loaded) {
+    return (
+      <div className="bg-card border border-border rounded-xl p-6 h-64 flex items-center justify-center">
+        <div className="animate-pulse w-3/4 h-6 bg-muted rounded" />
+      </div>
+    )
+  }
 
   if (type === "bar") {
     return (
@@ -65,6 +75,8 @@ export default function StatsChart({ type, title, data }: StatsChartProps) {
     )
   }
 
+  const pieColors = [colors.primary, colors.secondary]
+
   return (
     <div className="bg-card border border-border rounded-xl p-6">
       <h3 className="text-lg font-semibold mb-4">{title}</h3>
@@ -73,7 +85,7 @@ export default function StatsChart({ type, title, data }: StatsChartProps) {
           <PieChart>
             <Pie data={data || pieData} cx="50%" cy="50%" outerRadius={80} dataKey="value" stroke="none">
               {(data || pieData).map((entry, index) => (
-                <Cell key={`cell-${index}`} fill={entry.color?.startsWith('hsl(') ? entry.color : `hsl(${entry.color})`} />
+                <Cell key={`cell-${index}`} fill={pieColors[index % pieColors.length]} />
               ))}
             </Pie>
             <Tooltip
@@ -89,7 +101,7 @@ export default function StatsChart({ type, title, data }: StatsChartProps) {
       <div className="flex justify-center gap-4 mt-4">
         {(data || pieData).map((entry, index) => (
           <div key={index} className="flex items-center gap-2">
-            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: entry.color }} />
+            <div className="w-3 h-3 rounded-full" style={{ backgroundColor: pieColors[index % pieColors.length] }} />
             <span className="text-sm text-muted-foreground">
               {entry.name}: {entry.value}%
             </span>
