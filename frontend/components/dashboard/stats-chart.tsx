@@ -31,8 +31,16 @@ export default function StatsChart({ type, title, data }: StatsChartProps) {
       const root = getComputedStyle(document.documentElement)
       const primaryVar = root.getPropertyValue("--primary").trim()
       const secondaryVar = root.getPropertyValue("--secondary").trim()
-      const primary = primaryVar ? `hsl(${primaryVar})` : colors.primary
-      const secondary = secondaryVar ? `hsl(${secondaryVar})` : colors.secondary
+
+      const normalize = (v: string, fallback: string) => {
+        if (!v) return fallback
+        const val = v.trim()
+        if (val.startsWith('#') || val.startsWith('rgb') || val.startsWith('hsl')) return val
+        return `hsl(${val})`
+      }
+
+      const primary = normalize(primaryVar, colors.primary)
+      const secondary = normalize(secondaryVar, colors.secondary)
       setColors({ primary, secondary })
     } catch (e) {
       // ignore
